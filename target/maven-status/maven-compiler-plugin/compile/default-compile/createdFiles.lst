@@ -1,0 +1,8 @@
+config\JPAUtil.class
+dao\AbrigoDAO.class
+entity\Doacao.class
+App.class
+entity\CentroDeDistribuicao.class
+dao\CentroDeDistribuicaoDAO.class
+dao\DoacaoDAO.class
+entity\Abrigo.class
