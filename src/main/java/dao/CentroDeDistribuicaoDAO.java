@@ -1,7 +1,6 @@
 package dao;
 
 import config.JPAUtil;
-import entity.Abrigo;
 import entity.CentroDeDistribuicao;
 
 import javax.persistence.EntityManager;
@@ -9,6 +8,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class CentroDeDistribuicaoDAO {
+
 
     public void save(CentroDeDistribuicao centroDeDistribuicao) {
         EntityManager em = JPAUtil.getEntityManager();
@@ -33,7 +33,7 @@ public class CentroDeDistribuicaoDAO {
     public List<CentroDeDistribuicao> findAll() {
         EntityManager em = JPAUtil.getEntityManager();
         try {
-            return em.createQuery("from CentroDeDistribuicao").getResultList();
+            return em.createQuery("FROM CentroDeDistribuicao", CentroDeDistribuicao.class).getResultList();
         } finally {
             em.close();
         }
@@ -84,6 +84,18 @@ public class CentroDeDistribuicaoDAO {
             query.setParameter("centroId", centroId);
             query.setParameter("tipoItem", tipoItem);
             return query.getSingleResult().intValue();
+        } finally {
+            em.close();
+        }
+    }
+
+    public boolean isNomeUnico(String nome) {
+        EntityManager em = JPAUtil.getEntityManager();
+        try {
+            TypedQuery<Long> query = em.createQuery(
+                    "SELECT COUNT(c) FROM CentroDeDistribuicao c WHERE c.nome = :nome", Long.class);
+            query.setParameter("nome", nome);
+            return query.getSingleResult() == 0;
         } finally {
             em.close();
         }
